@@ -25,7 +25,7 @@
 
 #### 群二维码
 
-![](http://cdn.ikanade.cn/%E7%BE%A4.jpg)
+![](http://cdn.ikanade.cn/%E7%BE%A4%E5%B0%8F.jpg)
 
 如果二维码失效了，可以加我好友`kanadeblisst`，备注`进群`，或者加完好友发送`进群`
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
 启动并登录微信，执行这个`main.py`就会把Python注入到微信并且打开控制台
 
-![](http://cdn.ikanade.cn/%E7%BE%A4%E5%B0%8F.jpg)
+![](http://cdn.ikanade.cn/20231217113557.png)
 
 接着你在当前目录创建的任何代码保存后，都会被自动加载到微信并执行(注意创建的带代码文件名不能以数字开头)
 
