@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
 启动并登录微信，执行这个`main.py`就会把Python注入到微信并且打开控制台
 
-![](http://cdn.ikanade.cn/%E7%BE%A4%E5%B0%8F%E5%9B%BE.jpg)
+![](http://cdn.ikanade.cn/%E7%BE%A4%E5%B0%8F.jpg)
 
 接着你在当前目录创建的任何代码保存后，都会被自动加载到微信并执行(注意创建的带代码文件名不能以数字开头)
 
