@@ -61,7 +61,6 @@ class HookMsg:
         eax = context.EAX
         start_addr = DWORD.from_address(eax + 0x10).value
         end_addr = DWORD.from_address(eax + 0x14).value
-        print(hex(start_addr), hex(end_addr), hex(end_addr-start_addr))
         for addr in range(start_addr, end_addr, struct_size):
             msg = WeChatMsgStruct32.from_address(addr)
             json_msg = json.dumps(msg, cls=MyCDataJSONEncoder, ensure_ascii=False)

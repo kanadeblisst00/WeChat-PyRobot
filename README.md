@@ -25,7 +25,7 @@
 
 #### 群二维码
 
-![](http://cdn.ikanade.cn/%E7%BE%A4%E5%B0%8F.jpg)
+![](http://cdn.ikanade.cn/room_qrcode_20231226.jpg)
 
 如果二维码失效了，可以加我好友`kanadeblisst`，备注`进群`，或者加完好友发送`进群`
 
@@ -155,7 +155,7 @@ hooker.unhook()
 
 #### 接收消息
 
-创建一个`hookmsg.py`(名称随意，别数字开头就行)，写入一下代码后保存:
+创建一个`hookmsg.py`(名称随意，别数字开头就行)，写入以下代码后保存:
 ```python
 from module import HookMsg
 
@@ -170,7 +170,7 @@ hooker.hook()
 
 #### 撤回消息
 
-创建一个`revoke.py`，写入一下代码后保存:
+创建一个`revoke.py`，写入以下代码后保存:
 ```python
 from module import AntiRevoke
 
