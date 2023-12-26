@@ -16,7 +16,9 @@ CALL_OFFSET = {
         "SendImageCall1Offset": 0xDE1880,
         "SendImageCall2Offset": 0xF755C0,
         "LogEnterCallOffset": 0x102C250,
-        "LogLeaveCallOffset": 0x102C584
+        "LogLeaveCallOffset": 0x102C584,
+        "HookMsgCallOffset": 0xE0F743,
+        "RevokeMsgCallOffset": 0xE14880,
     },
     "3.9.7.29": {
         "SendMsgFreeCallOffset": 0x8FFFC0,
@@ -30,6 +32,8 @@ CALL_OFFSET = {
         "SendImageCall0Offset": 0x94CD10,
         "SendImageCall1Offset": 0x10911F0,
         "LogEnterCallOffset": 0x13D6380,
-        "LogLeaveCallOffset": 0x13D6380
+        "LogLeaveCallOffset": 0x13D6380,
+        "HookMsgCallOffset": 0x10E8E30,
+        "RevokeMsgCallOffset": 0x10E2A50,
     }
 }

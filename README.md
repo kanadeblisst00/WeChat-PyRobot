@@ -5,8 +5,8 @@
 3. [注入Python并使用ctypes主动调用进程内的函数和读取内存结构体](https://mp.weixin.qq.com/s/Dy8-nJPoXJp9_ZrrwOrC0w)
 4. [调用汇编引擎实战发送文本和图片消息(支持32位和64位微信)](https://mp.weixin.qq.com/s/PJZDf5937SsncGU-RhZ3tA)
 5. [允许Python加载运行py脚本且支持热加载](https://mp.weixin.qq.com/s/FWW1FecRo_yAhh9eLScAoA)
-6. 利用汇编和反汇编引擎写一个x86任意地址hook，实战Hook微信日志
-7. 封装Detour为dll，用于Python中x64函数 hook，实战Hook微信日志
+6. [利用汇编和反汇编引擎写一个x86任意地址hook，实战Hook微信日志](https://mp.weixin.qq.com/s/gAVt731tfOiS5o7U1b3haQ)
+7. [封装Detours为dll，用于Python中x64函数 hook，实战Hook微信日志](https://mp.weixin.qq.com/s/wbsjxv7Zt67pMi5ZYD0cfQ)
 8. 实战32位和64位接收消息和消息防撤回
 9. 实战读取内存链表结构体(好友列表)
 10. 做一个僵尸粉检测工具
@@ -36,8 +36,8 @@
 - 发送文本消息
 - 发送图片消息
 - hook微信日志输出
-- hook接收消息(下篇更新)
-- 防撤回(下篇更新)
+- hook接收消息
+- 消息防撤回
 
 #### 准备环境
 
@@ -45,11 +45,9 @@
 2. 安装32位或64位Python(取决于你安装的微信是32位还是64位)，版本大于等于3.7
 3. `pip install --upgrade wechat_pyrobot`
 
-后续如果更新功能都需要执行一遍`pip install --upgrade wechat_pyrobot`
-
 #### 使用
 
-首先创建一个目录，例如`robot_code`，再创建一个`main.py`(名称随意)写入一下代码:
+首先创建一个目录，例如`robot_code`，再创建一个`main.py`(名称随意)写入以下代码:
 ```python
 from py_process_hooker import inject_python_and_monitor_dir
 
@@ -157,10 +155,28 @@ hooker.unhook()
 
 #### 接收消息
 
-待更新
+创建一个`hookmsg.py`(名称随意，别数字开头就行)，写入一下代码后保存:
+```python
+from module import HookMsg
+
+def msg_callback(json_msg_str:str):
+    print(json_msg_str)
+
+hooker = HookMsg(msg_callback)
+hooker.hook() 
+```
+
+后续再优化使用方式，注入后会自动加载hook消息的脚本，并引入消息插件的模式。可以自己编写py插件脚本来处理消息
 
 #### 撤回消息
 
-待更新
+创建一个`revoke.py`，写入一下代码后保存:
+```python
+from module import AntiRevoke
 
+ar = AntiRevoke()
+ar.hook()
+```
+
+界面上的消息不会被撤回，但也不会有撤回提示。控制台会打印谁谁谁撤回了一条消息，但是没有消息内容，只有消息的msgid。你可以先将消息保存下来，然后通过这个msgid来查询撤回的哪个消息
 
