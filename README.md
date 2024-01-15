@@ -90,7 +90,7 @@ if __name__ == "__main__":
 例如 创建一个`sendmsg.py`，写入以下代码后保存：
 ```python
 import time
-from module import SendMsg
+from wechat_pyrobot import SendMsg
 
 
 st = SendMsg()
@@ -108,7 +108,7 @@ st.send_image("filehelper", r"D:\a.png")
 ```python
 import time
 from threading import Timer
-from module import SendMsg
+from wechat_pyrobot import SendMsg
 
 
 st = SendMsg()
@@ -141,7 +141,7 @@ msg_timer.cancel()
 
 例如创建一个`hooklog.py`，写入一下代码后保存:
 ```python
-from module import HookLog
+from wechat_pyrobot import HookLog
 
 hooker = HookLog()
 hooker.hook() 
@@ -168,7 +168,7 @@ hooker.unhook()
 ```
 不过，因为hook类已经被定义成了单例模式，所以即使你新建一个文件在实例化一个也是一样的效果
 ```python
-from module import HookLog
+from wechat_pyrobot import HookLog
 
 hooker = HookLog()
 hooker.unhook() 
@@ -178,7 +178,7 @@ hooker.unhook()
 
 创建一个`hookmsg.py`(名称随意，别数字开头就行)，写入以下代码后保存:
 ```python
-from module import HookMsg
+from wechat_pyrobot import HookMsg
 
 def msg_callback(json_msg_str:str):
     print(json_msg_str)
@@ -193,7 +193,7 @@ hooker.hook()
 
 创建一个`revoke.py`，写入以下代码后保存:
 ```python
-from module import AntiRevoke
+from wechat_pyrobot import AntiRevoke
 
 ar = AntiRevoke()
 ar.hook()
