@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "wechat_pyrobot"
-version = "0.1.1"
+version = "1.1.1"
 authors = [
   { name="kanadeblisst", email="kanade@blisst.cn" },
 ]
 description = "注入Python到微信，并实现Python发送消息和接收消息"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -19,7 +19,8 @@ classifiers = [
 dependencies = [
     "keystone-engine",
     "pywin32",
-    "py_process_hooker"
+    "py_process_hooker",
+    "requests"
 ]
 
 [project.urls]

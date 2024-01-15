@@ -7,7 +7,7 @@
 5. [允许Python加载运行py脚本且支持热加载](https://mp.weixin.qq.com/s/FWW1FecRo_yAhh9eLScAoA)
 6. [利用汇编和反汇编引擎写一个x86任意地址hook，实战Hook微信日志](https://mp.weixin.qq.com/s/gAVt731tfOiS5o7U1b3haQ)
 7. [封装Detours为dll，用于Python中x64函数 hook，实战Hook微信日志](https://mp.weixin.qq.com/s/wbsjxv7Zt67pMi5ZYD0cfQ)
-8. 实战32位和64位接收消息和消息防撤回
+8. [实战32位和64位接收消息和消息防撤回](https://mp.weixin.qq.com/s/UUO27gRLdIKzTlaSuwiV0w)
 9. 实战读取内存链表结构体(好友列表)
 10. 做一个僵尸粉检测工具
 11. 根据bug反馈和建议进行细节上的优化
@@ -25,9 +25,9 @@
 
 #### 群二维码
 
-![](http://cdn.ikanade.cn/room_qrcode_20231226.jpg)
+![](http://cdn.ikanade.cn/room_qrcode_20240122.jpg)
 
-如果二维码失效了，可以加我好友`kanadeblisst`，备注`进群`，或者加完好友发送`进群`
+如果二维码失效了，可以加我好友`kanadeblisst`，备注`进群`
 
 ## 使用教程
 
@@ -38,31 +38,52 @@
 - hook微信日志输出
 - hook接收消息
 - 消息防撤回
+- 下载聊天表情包
 
 #### 准备环境
 
 1. 安装支持的版本微信
-2. 安装32位或64位Python(取决于你安装的微信是32位还是64位)，版本大于等于3.7
-3. `pip install --upgrade wechat_pyrobot`
+2. 安装32位或64位Python(取决于你安装的微信是32位还是64位)，版本大于等于3.8
+3. `pip install wechat_pyrobot==1.1.1`
+
+如果国内源还没有同步最新版本，可以指定`-i https://pypi.org/simple/`选项使用pip官方库
 
 #### 使用
 
 首先创建一个目录，例如`robot_code`，再创建一个`main.py`(名称随意)写入以下代码:
 ```python
 from py_process_hooker import inject_python_and_monitor_dir
+from wechat_pyrobot import get_on_startup
+from wechat_pyrobot.msg_plugins.print_msg import PrintMsg
+from wechat_pyrobot.msg_plugins.download_emotion import DownLoadEmotion
 
 
 if __name__ == "__main__":
     process_name = "WeChat.exe"
     open_console = True
-    inject_python_and_monitor_dir(process_name, __file__, open_console=open_console)
+    on_startup = get_on_startup(msg_plugins=[PrintMsg, DownLoadEmotion])
+    
+    inject_python_and_monitor_dir(process_name, __file__, open_console=open_console, on_startup=on_startup)
 ```
 
 启动并登录微信，执行这个`main.py`就会把Python注入到微信并且打开控制台
 
 ![](http://cdn.ikanade.cn/20231217113557.png)
 
-接着你在当前目录创建的任何代码保存后，都会被自动加载到微信并执行(注意创建的带代码文件名不能以数字开头)
+现在默认是注入就监听消息和打开消息防撤回
+
+#### 待实现插件列表
+
+- 监听群聊中的群二维码
+- 监听并实时采集关注的公众号文章
+- 自动下载并解密聊天中的图片
+- chatgpt自动回复
+- 群消息关键词提醒
+- 消息保存到数据库，如sqlite、postgresql等
+- 自动接收转账
+- 监听收款信息对接发卡平台，目前可以用v免签+独角数卡
+
+有兴趣的可以进群等待更新
 
 #### 发送消息
 
