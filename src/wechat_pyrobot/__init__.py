@@ -4,6 +4,8 @@ import json
 import os
 import threading
 from .plugin_class import MsgPluginTemplate
+from py_process_hooker.winapi import GetWeChatVersion
+from .offset import CALL_OFFSET
 
 
 if "64" in platform.architecture()[0]:
@@ -18,7 +20,7 @@ else:
     from .hookmsg32 import HookMsg
 
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 __all__ = [
     "SendMsg",
@@ -32,7 +34,7 @@ __all__ = [
 def get_on_startup(msg_plugins=[], other_plugins=[]):
     '''注入后立即执行的函数'''
     msg_queue = queue.Queue()
-
+    
     def msg_callback(json_msg_str:str):
         '''消息回调函数'''
         msg_queue.put(json_msg_str)
@@ -56,6 +58,11 @@ def get_on_startup(msg_plugins=[], other_plugins=[]):
                 obj.deal_msg(msg_dict)
 
     def _on_startup(main_file_path=None):
+        # 增加版本检测
+        wx_version = GetWeChatVersion()
+        if wx_version not in CALL_OFFSET:
+            raise Exception(f"当前微信的版本({wx_version})不在支持的列表，目前支持的版本列表: {list(CALL_OFFSET.keys())}")
+
         pwd_path = os.path.dirname(main_file_path)
         # hook消息
         hooker = HookMsg(msg_callback)

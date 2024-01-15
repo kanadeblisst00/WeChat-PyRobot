@@ -44,7 +44,7 @@
 
 1. 安装支持的版本微信
 2. 安装32位或64位Python(取决于你安装的微信是32位还是64位)，版本大于等于3.8
-3. `pip install wechat_pyrobot==1.1.1`
+3. `pip install wechat_pyrobot==1.1.2`
 
 如果国内源还没有同步最新版本，可以指定`-i https://pypi.org/simple/`选项使用pip官方库
 
