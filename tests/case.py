@@ -1,7 +1,6 @@
 from py_process_hooker import inject_python_and_monitor_dir
 from wechat_pyrobot import get_on_startup
-from wechat_pyrobot.msg_plugins.print_msg import PrintMsg
-from wechat_pyrobot.msg_plugins.download_emotion import DownLoadEmotion
+from wechat_pyrobot.msg_plugins import PrintMsg, DownLoadEmotion
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ else:
     from .hookmsg32 import HookMsg
 
 
-__version__ = "1.1.2"
+__version__ = "1.2.1"
 
 __all__ = [
     "SendMsg",
@@ -73,6 +73,9 @@ def get_on_startup(msg_plugins=[], other_plugins=[]):
         # 处理消息队列
         msg_thread = threading.Thread(target=msg_thread_func, args=(msg_queue, pwd_path))
         msg_thread.start()
+        # 启动其他类型插件
+        for other_plugin in other_plugins:
+            other_plugin().start()
 
     return _on_startup
 

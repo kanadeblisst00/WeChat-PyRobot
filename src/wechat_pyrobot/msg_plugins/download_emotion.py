@@ -23,6 +23,9 @@ class DownLoadEmotion(MsgPluginTemplate):
         filename = msg_dict["file_path"]
         if not filename:
             filename = msg_dict["msgid"]
+        if not cdnurl.startswith("http"):
+            print(f"错误的表情包链接({cdnurl})!")
+            return
         save_path = f"{self.emotion_save_path}{os.sep}{filename}.gif"
         with open(save_path, 'wb') as f:
             f.write(self.download_file(cdnurl))
