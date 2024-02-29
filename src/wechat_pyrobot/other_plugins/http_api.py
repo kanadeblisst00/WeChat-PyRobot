@@ -5,9 +5,17 @@ from threading import Thread
 from .. import SendMsg
 import uvicorn
 from fastapi import FastAPI
-
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class ItemMsg(BaseModel):
+    touser: str
+    msg: str 
+
+class ItemImage(BaseModel):
+    touser: str
+    path: str  
 
 class HttpApi(Thread):
     def __init__(self) -> None:
@@ -15,12 +23,16 @@ class HttpApi(Thread):
         sg = SendMsg()
 
         @app.post("/post_sendmsg")
-        def post_sendmsg(touser:str, msg:str):
+        def post_sendmsg(item:ItemMsg):
+            touser = item.touser
+            msg = item.msg
             r = sg.send_text(touser, msg)
             return {"result": r}
 
         @app.post("/post_sendimage")
-        def post_sendimage(touser: str, path: str):
+        def post_sendimage(item:ItemImage):
+            touser = item.touser
+            path = item.path
             r = sg.send_image(touser, path)
             return {"result": r}
         

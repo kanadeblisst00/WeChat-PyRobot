@@ -25,7 +25,7 @@
 
 #### 群二维码
 
-![](http://cdn.ikanade.cn/room_qrcode_20240122.jpg)
+![](http://cdn.ikanade.cn/Python_room_qrcode_20240229.jpg)
 
 如果二维码失效了，可以加我好友`kanadeblisst`，备注`进群`
 
@@ -42,11 +42,11 @@
 
 #### 准备环境
 
-1. 安装支持的版本微信
-2. 安装32位或64位Python(取决于你安装的微信是32位还是64位)，版本大于等于3.8
-3. `pip install wechat_pyrobot==1.1.2`
+1. 安装支持的版本(`3.9.8.15`)微信
+2. 安装Python，版本大于等于3.8
+3. `pip install wechat_pyrobot==1.2.2`
 
-如果国内源还没有同步最新版本，可以指定`-i https://pypi.org/simple/`选项使用pip官方库
+如果国内源还没有同步最新版本，可以指定`-i https://pypi.org/simple/` 选项使用pip官方库
 
 #### 使用
 
@@ -54,14 +54,14 @@
 ```python
 from py_process_hooker import inject_python_and_monitor_dir
 from wechat_pyrobot import get_on_startup
-from wechat_pyrobot.msg_plugins.print_msg import PrintMsg
-from wechat_pyrobot.msg_plugins.download_emotion import DownLoadEmotion
+from wechat_pyrobot.msg_plugins import PrintMsg, DownLoadEmotion
+from wechat_pyrobot.other_plugins import HttpApi
 
 
 if __name__ == "__main__":
     process_name = "WeChat.exe"
     open_console = True
-    on_startup = get_on_startup(msg_plugins=[PrintMsg, DownLoadEmotion])
+    on_startup = get_on_startup(msg_plugins=[PrintMsg, DownLoadEmotion], other_plugins=[HttpApi])
     
     inject_python_and_monitor_dir(process_name, __file__, open_console=open_console, on_startup=on_startup)
 ```
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
 ![](http://cdn.ikanade.cn/20231217113557.png)
 
-现在默认是注入就监听消息和打开消息防撤回
+现在默认是注入就会加载插件并监听消息和打开消息防撤回，插件HttpApi会加载一个http服务来用于发送文字和图片消息
 
 #### 待实现插件列表
 
@@ -87,117 +87,88 @@ if __name__ == "__main__":
 
 #### 发送消息
 
-例如 创建一个`sendmsg.py`，写入以下代码后保存：
 ```python
-import time
-from wechat_pyrobot import SendMsg
+import requests
 
+url = "http://127.0.0.1:26666/sendmsg"
+params = {
+    "touser": "filehelper",
+    "msg": "测试消息"
+}
 
-st = SendMsg()
-st.send_text("filehelper", "测试消息!")
-# 注意发送消息之间要间隔时间
-time.sleep(1)
-st.send_image("filehelper", r"D:\a.png")
+requests.get(url, params=params)
+```
+图片消息
+
+```python
+import requests
+
+url = "http://127.0.0.1:26666/sendimage"
+params = {
+    "touser": "filehelper",
+    "path": r"C:\Users\Administrator\Pictures\图片1.jpg"
+}
+
+requests.get(url, params=params)
 ```
 
-第一个参数是wxid，获取方式后面再讲，或者下篇接收消息也能获取到好友的wxid，第二个参数是消息内容
-
-发送消息时不要使用死循环，会阻塞Python进程，如果想定时发送消息，可以使用Python的定时器`threading.Timer`或者多线程`threading.Thread`
-
-#### threading.Timer
+还有一个post的版本，图片类似
 ```python
-import time
-from threading import Timer
-from wechat_pyrobot import SendMsg
+import requests
 
+url = "http://127.0.0.1:26666/post_sendmsg"
+data = {
+    "touser": "filehelper",
+    "msg": "测试消息2"
+}
 
-st = SendMsg()
-
-def send_timer(n: int):
-    global msg_timer
-    t = time.strftime("%Y-%m-%d")
-    msg_text = f"{t}: {n}"
-    st.send_text("filehelper", msg_text)
-    # 10秒后再执行一次
-    msg_timer = Timer(10, send_timer, (n+1, ))
-    msg_timer.start()
- 
-
-# 2秒后执行send_timer
-msg_timer = Timer(2, send_timer, (1, ))
-msg_timer.start()
-# timer.cancel()#取消执行
-```
-取消定时器(解释见下面的骚操作)：
-```python
-import sys
-
-sendmsg_timer = sys.modules["sendmsg_timer"]
-msg_timer = sendmsg_timer.msg_timer
-msg_timer.cancel()
-```
-
-#### hook日志
-
-例如创建一个`hooklog.py`，写入一下代码后保存:
-```python
-from wechat_pyrobot import HookLog
-
-hooker = HookLog()
-hooker.hook() 
-```
-
-日志会被打印在控制台，如果想输出到文件，可以改下代码写入到文件
-
-hook不会阻塞进程，因为回调函数是在微信内部被调用，所以不需要使用多线程
-
-#### 骚操作
-
-之前说了加载模块都会被保存在`sys.modules`这个字典里，而这个热加载就是以模块形式加载代码
-
-所以你可以在新文件里引用之前文件的变量和方法，例如我新建一个`unhooklog.py`, 写入如下代码:
-```python
-import sys
-
-# 获取robot.py模块
-robot = sys.modules["robot"]
-# 获取robot模块中的hooker变量
-hooker = robot.hooker
-# 取消hook
-hooker.unhook()
-```
-不过，因为hook类已经被定义成了单例模式，所以即使你新建一个文件在实例化一个也是一样的效果
-```python
-from wechat_pyrobot import HookLog
-
-hooker = HookLog()
-hooker.unhook() 
+requests.post(url, json=data)
 ```
 
 #### 接收消息
 
-创建一个`hookmsg.py`(名称随意，别数字开头就行)，写入以下代码后保存:
+接收消息现在由插件控制，你可以编写自己的插件然后在`get_on_startup`的参数msg_plugins添加它
+
+例如我想写一个将消息保存到文件的插件, `robot_code`下新建一个目录my_msg_plugin，下面新建一个文件`save_to_file.py`：
+
 ```python
-from wechat_pyrobot import HookMsg
+import os
+import json
+from wechat_pyrobot.plugin_class import MsgPluginTemplate
 
-def msg_callback(json_msg_str:str):
-    print(json_msg_str)
 
-hooker = HookMsg(msg_callback)
-hooker.hook() 
+class SaveToFile(MsgPluginTemplate):
+    def __init__(self, **kwargs) -> None:
+        self.name = os.path.basename(__file__)[:-3]
+        super().__init__(**kwargs)
+        # kwargs["pwd"]是main.py所在路径
+        self.msg_save_path = os.path.join(kwargs["pwd"], "msg_save_path")
+        os.makedirs(self.msg_save_path, exist_ok=True)
+    
+    def deal_msg(self, msg_dict):
+        path = os.path.join(self.msg_save_path, f'{msg_dict["msgid"]}.json')
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(json.dumps(msg_dict)) 
 ```
 
-后续再优化使用方式，注入后会自动加载hook消息的脚本，并引入消息插件的模式。可以自己编写py插件脚本来处理消息
+接着，你需要关闭微信。修改main.py代码，导入你自己的插件，然后注入Python到微信，代码如下:
 
-#### 撤回消息
-
-创建一个`revoke.py`，写入以下代码后保存:
 ```python
-from wechat_pyrobot import AntiRevoke
+from py_process_hooker import inject_python_and_monitor_dir
+from wechat_pyrobot import get_on_startup
+from wechat_pyrobot.msg_plugins import PrintMsg, DownLoadEmotion
+from wechat_pyrobot.other_plugins import HttpApi
+from my_msg_plugin.save_to_file import SaveToFile
 
-ar = AntiRevoke()
-ar.hook()
+if __name__ == "__main__":
+    process_name = "WeChat.exe"
+    open_console = True
+    on_startup = get_on_startup(msg_plugins=[PrintMsg, DownLoadEmotion, SaveToFile], other_plugins=[HttpApi])
+    
+    inject_python_and_monitor_dir(process_name, __file__, open_console=open_console, on_startup=on_startup)
 ```
 
-界面上的消息不会被撤回，但也不会有撤回提示。控制台会打印谁谁谁撤回了一条消息，但是没有消息内容，只有消息的msgid。你可以先将消息保存下来，然后通过这个msgid来查询撤回的哪个消息
 
+#### 防撤回消息
+
+防撤回在注入时默认就会加载，无法再调用

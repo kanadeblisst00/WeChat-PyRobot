@@ -20,7 +20,7 @@ else:
     from .hookmsg32 import HookMsg
 
 
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 
 __all__ = [
     "SendMsg",
