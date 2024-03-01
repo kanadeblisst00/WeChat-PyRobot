@@ -34,6 +34,7 @@
 #### 当前支持功能
 
 - 发送文本消息
+- 发送AT消息
 - 发送图片消息
 - hook微信日志输出
 - hook接收消息
@@ -98,6 +99,22 @@ params = {
 
 requests.get(url, params=params)
 ```
+AT消息
+```python
+import requests
+import json
+url = "http://127.0.0.1:26666/sendatmsg"
+data = {
+    "touser": "11111111111@chatroom",
+    "msg": "@昵称 222222",
+    "atwxid": "被@人的wxid"
+}
+headers = {
+    "content-type": "application/json"
+}
+print(requests.get(url, params=data).json())
+```
+
 图片消息
 
 ```python
