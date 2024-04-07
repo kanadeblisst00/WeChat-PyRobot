@@ -2,7 +2,7 @@
 给发送消息提供http接口服务
 '''
 from threading import Thread
-from .. import SendMsg
+from .. import SendMsg, GetContacts
 from typing import List
 import uvicorn
 from fastapi import FastAPI
@@ -27,7 +27,7 @@ class HttpApi(Thread):
     def __init__(self) -> None:
         super().__init__()
         sg = SendMsg()
-
+        
         @app.post("/post_sendmsg")
         def post_sendmsg(item:MsgItem):
             touser = item.touser
@@ -66,6 +66,10 @@ class HttpApi(Thread):
         def sendimage(touser: str, path: str):
             r = sg.send_image(touser, path)
             return {"result": r}
+        
+        @app.get("/contacts")
+        def getcontacts():
+            return GetContacts().value
     
     def run(self):
         uvicorn.run(app="wechat_pyrobot.other_plugins.http_api:app", host="127.0.0.1", port=26666, reload=False)

@@ -13,6 +13,7 @@ if "64" in platform.architecture()[0]:
     from .hooklog64 import HookLog
     from .anti_revoke64 import AntiRevoke
     from .hookmsg64 import HookMsg
+    from .get_contact_list import GetContacts
 else:
     from .sendmsg32 import SendMsg
     from .hooklog32 import HookLog
@@ -20,13 +21,14 @@ else:
     from .hookmsg32 import HookMsg
 
 
-__version__ = "1.2.6"
+__version__ = "1.3.0"
 
 __all__ = [
     "SendMsg",
     "HookLog",
     "HookMsg",
     "AntiRevoke",
+    "GetContacts",
     "get_on_startup"
 ]
 

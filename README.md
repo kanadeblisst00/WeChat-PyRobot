@@ -25,9 +25,9 @@
 
 #### 群二维码
 
-![](http://cdn.ikanade.cn/Python_room_qrcode_20240229.jpg)
+![](http://cdn.ikanade.cn/Python_room_qrcode_20240407.jpg)
 
-如果二维码失效了，可以加我好友`kanadeblisst`，备注`进群`
+如果二维码失效了，可以加我好友`kanadeblisst`，备注`机器人群`
 
 ## 使用教程
 
@@ -40,12 +40,15 @@
 - hook接收消息
 - 消息防撤回
 - 下载聊天表情包
+- 获取好友列表
+- 获取群列表
+- 获取公众号列表
 
 #### 准备环境
 
 1. 安装支持的版本(`3.9.8.15`)微信
-2. 安装Python，版本大于等于3.8
-3. `pip install wechat_pyrobot==1.2.2`
+2. 安装Python，版本大于等于3.8 (最好就用3.8)，测试3.10+容易出bug
+3. `pip install wechat_pyrobot==1.3.0`
 
 如果国内源还没有同步最新版本，可以指定`-i https://pypi.org/simple/` 选项使用pip官方库
 
@@ -141,10 +144,20 @@ data = {
 
 requests.post(url, json=data)
 ```
+#### 联系人列表
+
+目前没有区分公众号、群和好友，有需求的可以自己加判断区分
+
+```python
+import requests
+
+url = "http://127.0.0.1:26666/contacts"
+print(requests.get(url).json())
+```
 
 #### 接收消息
 
-接收消息现在由插件控制，你可以编写自己的插件然后在`get_on_startup`的参数msg_plugins添加它
+接收消息现在由插件控制，你可以编写自己的插件然后在`get_on_startup`的参数msg_plugins添加它。插件执行目前是同步单线程，如果需要多线程的话，可以自己根据需要修改get_on_startup里的msg_thread_func函数。
 
 例如我想写一个将消息保存到文件的插件, `robot_code`下新建一个目录my_msg_plugin，下面新建一个文件`save_to_file.py`：
 
@@ -176,6 +189,7 @@ from wechat_pyrobot import get_on_startup
 from wechat_pyrobot.msg_plugins import PrintMsg, DownLoadEmotion
 from wechat_pyrobot.other_plugins import HttpApi
 from my_msg_plugin.save_to_file import SaveToFile
+
 
 if __name__ == "__main__":
     process_name = "WeChat.exe"
