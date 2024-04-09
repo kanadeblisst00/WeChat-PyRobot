@@ -55,7 +55,5 @@ class GetContacts:
             json_contact = json.dumps(c, cls=MyCDataJSONEncoder, ensure_ascii=False)
             contact = json.loads(json_contact)
             contacts.append(contact)
-            if contact["nickname"] == "Python成长路":
-                print(hex(next_left_node))
             next_left_node = c_uint64.from_address(next_left_node).value
         return contacts

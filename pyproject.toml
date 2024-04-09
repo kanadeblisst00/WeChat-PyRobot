@@ -19,7 +19,7 @@ classifiers = [
 dependencies = [
     "keystone-engine",
     "pywin32",
-    "py_process_hooker>=0.2.1",
+    "py_process_hooker>=0.3.0",
     "requests",
     "uvicorn",
     "fastapi"
