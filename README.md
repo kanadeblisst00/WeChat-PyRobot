@@ -25,7 +25,7 @@
 
 #### 群二维码
 
-![](http://cdn.ikanade.cn/Python_room_qrcode_20240407.jpg)
+![](http://cdn.ikanade.cn/c7a7d33858b4e03e2e1f417272518cd.jpg)
 
 如果二维码失效了，可以加我好友`kanadeblisst`，备注`机器人群`
 
