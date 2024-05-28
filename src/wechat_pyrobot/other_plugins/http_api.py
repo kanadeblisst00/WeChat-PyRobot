@@ -8,6 +8,9 @@ import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+
+HTTP_PORT = 26666
+
 app = FastAPI()
 
 class MsgItem(BaseModel):
@@ -72,7 +75,7 @@ class HttpApi(Thread):
             return GetContacts().value
     
     def run(self):
-        uvicorn.run(app="wechat_pyrobot.other_plugins.http_api:app", host="127.0.0.1", port=26666, reload=False)
+        uvicorn.run(app="wechat_pyrobot.other_plugins.http_api:app", host="127.0.0.1", port=HTTP_PORT, reload=False)
 
 
 if __name__ == "__main__":

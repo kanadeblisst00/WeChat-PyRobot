@@ -8,7 +8,7 @@
 6. [利用汇编和反汇编引擎写一个x86任意地址hook，实战Hook微信日志](https://mp.weixin.qq.com/s/gAVt731tfOiS5o7U1b3haQ)
 7. [封装Detours为dll，用于Python中x64函数 hook，实战Hook微信日志](https://mp.weixin.qq.com/s/wbsjxv7Zt67pMi5ZYD0cfQ)
 8. [实战32位和64位接收消息和消息防撤回](https://mp.weixin.qq.com/s/UUO27gRLdIKzTlaSuwiV0w)
-9. 实战读取内存链表结构体(好友列表)
+9. [实战读取内存链表结构体(好友列表)](https://mp.weixin.qq.com/s/afGk6u8JtDIyg-NPJi4u9A)
 10. 做一个僵尸粉检测工具
 11. 根据bug反馈和建议进行细节上的优化
 12. 其他功能看心情加
@@ -23,11 +23,6 @@
 
 等这个系列教程结束再更新新版本，hook库和主动调用都已经说完了，也可以等群友提pr来更新。
 
-#### 群二维码
-
-![](http://cdn.ikanade.cn/c7a7d33858b4e03e2e1f417272518cd.jpg)
-
-如果二维码失效了，可以加我好友`kanadeblisst`，备注`机器人群`
 
 ## 使用教程
 
