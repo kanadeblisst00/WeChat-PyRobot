@@ -1,3 +1,17 @@
+## 停更通知
+
+这个项目没什么人关注，也没什么人在使用，没必要花精力在这上面了。
+
+况且Python并不适合做hook，注入Python去实现hook和主动调用甚至都不如直接使用frida，注入特征太明显。虽然注入Python在实现和写代码上是比frida要方便的，比如定义结构体，调用函数等。也可以使用Python丰富的第三方库。
+
+最适合做hook的只有C++，C++有着非常多成熟的hook开源库，还可以实现一些无痕hook，比如使用VEH异常处理机制hook，或是开放驱动做hook。
+
+#### 新项目开发
+
+既然大家只是需要个机器人，对技术不感兴趣。就新开一个项目，使用C++来做hook层面的事，用aardio加载Python作为插件语言去实现一个机器人。这样依旧可以自己在这个基础上做扩展插件，也能利用C++实现无痕hook，减小封号的风险。
+
+新项目地址：https://github.com/kanadeblisst00/pywxrobot
+
 #### 教程目录
 
 1. [在windows11上编译python](https://mp.weixin.qq.com/s/nJq8XX203Wc_gwT5hSWYZA)
